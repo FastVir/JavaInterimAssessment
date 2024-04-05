@@ -2,14 +2,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 class Laptop {
-	String brand;
+	String maker;
 	int ram;
 	int hdd;
 	String os;
 	String color;
 	
-	public Laptop(String brand, int ram, int hdd, String os, String color) {
-		this.brand = brand;
+	public Laptop(String maker, int ram, int hdd, String os, String color) {
+		this.maker = maker;
 		this.ram = ram;
 		this.hdd = hdd;
 		this.os = os;
@@ -18,59 +18,60 @@ class Laptop {
 	
 	@Override
 	public String toString() {
-		return "Laptop{" +
-				"brand='" + brand + '\'' +
-				", ram=" + ram +
-				", hdd=" + hdd +
-				", os='" + os + '\'' +
-				", color='" + color + '\'' +
-				'}';
+		return "Бренд - " + maker  +
+				", ОЗУ - " + ram + "GB" +
+				", HDD - " + hdd + "GB" +
+				", OS - " + os  +
+				", Цвет - " + color ;
 	}
 }
 
 public class EquipmentStore {
 	public static void main(String[] args) {
 		Set<Laptop> laptops = new HashSet<>();
-		laptops.add(new Laptop("Dell", 16, 512, "Windows", "Black"));
-		laptops.add(new Laptop("Apple", 8, 256, "MacOS", "Silver"));
-		laptops.add(new Laptop("Lenovo", 32, 1024, "Windows", "Gray"));
+		laptops.add(new Laptop("Samsung", 8, 512, "Windows", "Black"));
+		laptops.add(new Laptop("Apple", 16, 256, "MacOS", "Silver"));
+		laptops.add(new Laptop("Lenovo", 64, 1024, "Linux", "Gray"));
+		laptops.add(new Laptop("Asus", 32, 512, "WithoutOS", "White"));
 		
 		Map<String, Object> filters = new HashMap<>();
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Выберите критерии для фильтрации:");
-		System.out.println("1 - ОЗУ");
-		System.out.println("2 - Объем ЖД");
-		System.out.println("3 - Операционная система");
-		System.out.println("4 - Цвет");
-		System.out.println("0 - Завершить выбор");
+		selectionOfParameters();
 		
-		int choice;
+		int selection;
 		while (true) {
-			choice = scanner.nextInt();
-			if (choice == 0) {
+			selection = scanner.nextInt();
+			if (selection == 0) {
 				break;
 			}
-			switch (choice) {
+			switch (selection) {
 				case 1:
-					System.out.println("Минимальный объем ОЗУ?");
+					System.out.println("Минимальный объем ОЗУ: ");
 					filters.put("ram", scanner.nextInt());
+					selectionOfParameters();
 					break;
 				case 2:
-					System.out.println("Минимальный объем ЖД?");
+					System.out.println("Минимальный объем ЖД: ");
 					filters.put("hdd", scanner.nextInt());
+					selectionOfParameters();
 					break;
 				case 3:
-					System.out.println("Операционная система?");
+					System.out.println("Введите наименование операционной системы: ");
 					filters.put("os", scanner.next());
+					selectionOfParameters();
 					break;
 				case 4:
-					System.out.println("Цвет?");
+					System.out.println("Цвет: ");
 					filters.put("color", scanner.next());
+					selectionOfParameters();
 					break;
+					
 				default:
 					System.out.println("Неверный выбор. Попробуйте снова.");
+					System.out.println();
+					selectionOfParameters();
 			}
 		}
 		
@@ -86,4 +87,14 @@ public class EquipmentStore {
 			System.out.println(laptop);
 		}
 	}
+	
+	private static void selectionOfParameters () {
+		System.out.println("Выберите критерии для фильтрации:");
+		System.out.println("1 - ОЗУ: 8, 16, 32, 64");
+		System.out.println("2 - Объем ЖД: 256, 512, 1024");
+		System.out.println("3 - Операционная система: Windows, MacOS, Linux, WithoutOS");
+		System.out.println("4 - Цвет: Black, Silver, Gray, White");
+		System.out.println("0 - Вывести список ноутбуков");
+	}
+	
 }
